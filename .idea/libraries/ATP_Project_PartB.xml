@@ -1,0 +1,17 @@
+<component name="libraryTable">
+  <library name="ATP-Project-PartB">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/src/ATP-Project-PartB.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/src/ATP-Project-PartB.jar!/javafx.base" />
+      <root url="jar://$PROJECT_DIR$/src/ATP-Project-PartB.jar!/javafx.controls" />
+      <root url="jar://$PROJECT_DIR$/src/ATP-Project-PartB.jar!/javafx.fxml" />
+      <root url="jar://$PROJECT_DIR$/src/ATP-Project-PartB.jar!/javafx.graphics" />
+      <root url="jar://$PROJECT_DIR$/src/ATP-Project-PartB.jar!/javafx.media" />
+      <root url="jar://$PROJECT_DIR$/src/ATP-Project-PartB.jar!/javafx.swing" />
+      <root url="jar://$PROJECT_DIR$/src/ATP-Project-PartB.jar!/javafx.web" />
+    </SOURCES>
+  </library>
+</component>
