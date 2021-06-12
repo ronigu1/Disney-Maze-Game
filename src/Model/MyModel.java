@@ -27,7 +27,7 @@ public class MyModel extends Observable implements IModel {
         generatorServer = new Server(5400, 1000, new ServerStrategyGenerateMaze());
         solverServer = new Server(5401, 1000, new ServerStrategySolveSearchProblem());
     }
-
+//loadMaze,generateMaze update the location with the movePlayer function
     /**
      * public method for generating a Maze
      *
@@ -107,8 +107,8 @@ public class MyModel extends Observable implements IModel {
                 }
             });
             client.communicateWithServer();
-        } catch (UnknownHostException var1) {
-            var1.printStackTrace();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
         }
 
     }
@@ -171,14 +171,14 @@ public class MyModel extends Observable implements IModel {
             ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
             objectOut.writeObject(maze);
             objectOut.close();
-        } catch (Exception var7) {
-            var7.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-    public void loadMaze(File file) {
+    public void loadMaze(File fileToLoad) {
         try {
-            FileInputStream fileIn = new FileInputStream(file.getPath());
+            FileInputStream fileIn = new FileInputStream(fileToLoad.getPath());
             ObjectInputStream objectIn = new ObjectInputStream(fileIn);
             this.maze = (Maze) objectIn.readObject();
             objectIn.close();

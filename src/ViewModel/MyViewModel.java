@@ -4,6 +4,7 @@ import Model.IModel;
 import Model.MovementDirection;
 import algorithms.mazeGenerators.Maze;
 import algorithms.search.Solution;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 import java.io.File;
@@ -23,18 +24,15 @@ public class MyViewModel extends Observable implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
+        String change = (String) arg;
         if (o == model) {
-            if (arg.equals("mazeGenerated")) {
-                mazeGenerated();
-            }
-            else if((arg.equals("mazeSolved"))) {
-                mazeSolved();
-            }
-            else if(arg.equals("playerMoved")) {
-                playerMoved();
-            }
-            else if(arg.equals("mazeLoaded")) {
-                mazeLoaded();
+            switch (change) {
+                case "mazeGenerated" -> mazeGenerated();
+                case "playerMoved" -> playerMoved();
+                case "mazeSolved" -> mazeSolved();
+                case "mazeLoaded" -> mazeLoaded();
+                default -> System.out.println("Not implemented change: " + change);
+
             }
         }
     }
@@ -89,9 +87,9 @@ public class MyViewModel extends Observable implements Observer {
         model.saveMaze(saveFile);
     }
 
-    public void movePlayer(KeyEvent keyEvent) {
+    public void movePlayer(KeyCode KeyCode) {
         MovementDirection direction;
-        switch (keyEvent.getCode()) {
+        switch (KeyCode) {
             case UP,NUMPAD8 -> direction = MovementDirection.UP;
             case DOWN,NUMPAD2 -> direction = MovementDirection.DOWN;
             case LEFT,NUMPAD4 -> direction = MovementDirection.LEFT;
@@ -116,9 +114,7 @@ public class MyViewModel extends Observable implements Observer {
         return model.getPlayerColPos();
     }
 
-/*    public int getPlayerPosRow()
-    public int getPlayerPosCol()
-    public int[][] getMaze()
+/*
     private void updatePlayerPosition()
     public boolean validateMazeGenerationParams(int row, int col)
         */

@@ -72,7 +72,7 @@
                   <TextField fx:id="txtfldRowsNum" prefHeight="25.0" prefWidth="106.0" GridPane.columnIndex="1" />
                   <TextField fx:id="txtfldColsNum" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Button fx:id="btnGenerateMaze" onAction="#generateMaze" prefHeight="28.0" prefWidth="194.0" text="Generate Maze" textAlignment="CENTER" GridPane.columnSpan="2" GridPane.rowIndex="2" />
-                  <Button fx:id="btnSolveMaze" onAction="#solveMaze" prefHeight="29.0" prefWidth="193.0" text="Solve Maze" GridPane.columnSpan="2" GridPane.rowIndex="3" />
+                  <Button fx:id="btnSolveMaze" disable="true" onAction="#solveMaze" prefHeight="29.0" prefWidth="193.0" text="Solve Maze" GridPane.columnSpan="2" GridPane.rowIndex="3" />
                   <Label text="Player row:" GridPane.rowIndex="4" />
                   <Label text="Maze columns:" GridPane.rowIndex="1" />
                   <Label text="Player column:" GridPane.rowIndex="5" />
@@ -99,14 +99,14 @@
                   <Label prefHeight="17.0" prefWidth="61.0" text="Status bar" />
                </children>
             </HBox>
-            <Button fx:id="btnMuteMaze" minWidth="194.0" mnemonicParsing="false" onAction="#MuteMaze" prefHeight="31.0" prefWidth="170.0" text="Mute" GridPane.columnSpan="2" />
+            <Button fx:id="btnMuteMaze" minWidth="194.0" mnemonicParsing="false" onAction="#MuteORUnmuteMaze" prefHeight="31.0" prefWidth="170.0" text="Mute" GridPane.columnSpan="2" />
          </children>
       </GridPane>
    </bottom>
    <center>
       <Pane fx:id="pane" onScroll="#setOnScroll" prefHeight="499.0" prefWidth="113.0" BorderPane.alignment="CENTER">
            <children>
-               <MazeDisplayer fx:id="mazeDisplayer" BorderPane.alignment="CENTER" />
+               <MazeDisplayer fx:id="mazeDisplayer" BorderPane.alignment="CENTER" onMouseClicked="#mouseClicked" onMouseDragged="#mouseDragged" />
            </children>
       </Pane>
    </center>
