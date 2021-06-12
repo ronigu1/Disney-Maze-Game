@@ -62,6 +62,7 @@ public class MyViewController implements Observer, IView {
     public void setUpdatePlayerCol(int updatePlayerCol) {
         this.updatePlayerCol.set(updatePlayerCol + "");
     }
+
     public void setPlayerPosition(int row, int col){
         mazeDisplayer.setPlayerPositionAndRedraw(row, col);
         setUpdatePlayerRow(row);
@@ -73,6 +74,9 @@ public class MyViewController implements Observer, IView {
         lblPlayerCol.textProperty().bind(updatePlayerCol);
     }
 
+    public void setStageInView(Stage stage) {
+        this.stage = stage;
+    }
     public void setViewModel(MyViewModel viewModel) {
         this.viewModel = viewModel;
         this.viewModel.addObserver(this);
@@ -100,11 +104,10 @@ public class MyViewController implements Observer, IView {
 
     private void mazeLoaded() {
         mazeDisplayer.setMaze(viewModel.getMaze());
-        mazeDisplayer.setMazeAndRedraw(viewModel.getMaze().getData());
-        mazeDisplayer.setPlayerPositionAndRedraw(viewModel.getPlayerRow(), viewModel.getPlayerCol());
+        mazeDisplayer.setMazeGridWithoutRedraw(viewModel.getMaze().getData());
         initialize(viewModel);
+        displayCounter = 2;
         displayMaze(viewModel.getMaze().getData());
-
     }
 
     private void mazeSolved() {
@@ -119,22 +122,20 @@ public class MyViewController implements Observer, IView {
     private void mazeGenerated() {
         btnGenerateMaze.setDisable(false);
         mazeDisplayer.setMaze(viewModel.getMaze());
-        int playerRowIdx = viewModel.getMaze().getStartPosition().getRowIndex();
-        int playerColIdx = viewModel.getMaze().getStartPosition().getColumnIndex();
-        mazeDisplayer.setPlayerStartPositionWithoutRedraw(playerRowIdx, playerColIdx);
         initialize(viewModel);
         displayMaze(viewModel.getMaze().getData());
     }
     @Override
     public void displayMaze(int[][] maze) {
-        mazeDisplayer.setMazeAndRedraw(maze);
-        int playerPositionRow = viewModel.getPlayerRow();
-        int playerPositionColumn = viewModel.getPlayerCol();
-        if (displayCounter != 1)
-            mazeDisplayer.setPlayerPositionAndRedraw(playerPositionRow, playerPositionColumn);
+        int startPosRow = viewModel.getPlayerRow();
+        int startPosCol = viewModel.getPlayerCol();
+        if(displayCounter == 1)
+            mazeDisplayer.setMazeGridAndRedraw(maze);
+        else if(displayCounter != 1)
+            mazeDisplayer.setPlayerPositionAndRedraw(startPosRow,startPosCol);
         btnSolveMaze.setDisable(false);
-        this.updatePlayerRow.set(playerPositionRow + "");
-        this.updatePlayerCol.set(playerPositionColumn + "");
+        setUpdatePlayerRow(startPosRow);
+        setUpdatePlayerCol(startPosCol);
         displayCounter++;
     }
 
@@ -142,10 +143,9 @@ public class MyViewController implements Observer, IView {
         viewModel.movePlayer(keyEvent.getCode());
         keyEvent.consume();
     }
-/*
-    public void setPlayerCharacterAccordingToUserChoice(String chosenCharacterName) throws Exception {
-        mazeDisplayer.getUserChoiceOfPlayer(chosenCharacterName);
-    }*/
+    public void setPlayerCharacterAccordingToUserChoice(URL playerUrl,URL goalUrl) throws Exception {
+        mazeDisplayer.getUserChoiceOfPlayer(playerUrl,goalUrl) ;
+    }
 
     public void generateMaze(ActionEvent actionEvent) {
         try {
@@ -212,6 +212,7 @@ public class MyViewController implements Observer, IView {
     }
 
     public void About(ActionEvent actionEvent) {
+
     }
 
     public void Options() throws Exception {
@@ -235,6 +236,7 @@ public class MyViewController implements Observer, IView {
     @Override
     public void Load() throws IOException, ClassNotFoundException {
         FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Load maze");
         fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Maze Files", "*.maze"));
         File fileToLoad = fileChooser.showOpenDialog(stage);
@@ -251,7 +253,6 @@ public class MyViewController implements Observer, IView {
 
     public void mouseClicked(MouseEvent mouseEvent) {
         mazeDisplayer.requestFocus();
-
     }
 
     public void mouseDragged(MouseEvent mouseEvent) {

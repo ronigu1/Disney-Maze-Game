@@ -34,6 +34,7 @@ public class MyModel extends Observable implements IModel {
      * @param rows the number of rows in the maze
      * @param cols the number of cols in the maze
      */
+
     public void generateMaze(int rows, int cols) {
         CommunicateWithServer_MazeGenerating(rows, cols);
         isMazeExist = true;
