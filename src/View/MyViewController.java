@@ -11,6 +11,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -22,6 +23,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Observable;
@@ -143,8 +145,11 @@ public class MyViewController implements Observer, IView {
         viewModel.movePlayer(keyEvent.getCode());
         keyEvent.consume();
     }
-    public void setPlayerCharacterAccordingToUserChoice(URL playerUrl,URL goalUrl) throws Exception {
-        mazeDisplayer.getUserChoiceOfPlayer(playerUrl,goalUrl) ;
+    public void setCharactersAccordingToUserChoice(URL playerUrl,URL GoalUrl, URL playerGoalUrl, URL GoalGifUrl) throws Exception {
+        mazeDisplayer.setPlayer(playerUrl);
+        mazeDisplayer.setGoal(GoalUrl);
+        mazeDisplayer.setPlayerGoal(playerGoalUrl);
+        mazeDisplayer.setGoalGif(GoalGifUrl);
     }
 
     public void generateMaze(ActionEvent actionEvent) {
