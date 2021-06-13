@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.Pane?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="background" stylesheets="@choosePlayer.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.ChoosePlayerController">
+   <children>
+      <Button layoutX="141.0" layoutY="190.0" mnemonicParsing="false" onAction="#beautyAndTheBeast" prefHeight="100.0" prefWidth="100.0" style="-fx-background-image:  url(resources/Images/PlayerCharacter/beautyAndTheBeast.png);"/>
+      <Button layoutX="441.0" layoutY="190.0" mnemonicParsing="false" onAction="#liloAndStitch" prefHeight="100.0" prefWidth="100.0" style="-fx-background-image: url(resources/Images/PlayerCharacter/liloAndStitch.png);"/>
+      <Button layoutX="741.0" layoutY="190.0" mnemonicParsing="false" onAction="#mickeyMouse" prefHeight="100.0" prefWidth="100.0" style="-fx-background-image: url(resources/Images/PlayerCharacter/mickeyMouse.png);"/>
+      <Button layoutX="1041.0" layoutY="190.0" mnemonicParsing="false" onAction="#snowWhiteAndSevenDwarfs" prefHeight="100.0" prefWidth="100.0" style="-fx-background-image: url(resources/Images/PlayerCharacter/snowWhiteAndSevenDwarfs.png);"/>
+      <Button layoutX="292.0" layoutY="340.0" mnemonicParsing="false" onAction="#theJungleBook" prefHeight="100.0" prefWidth="100.0" style="-fx-background-image: url(resources/Images/PlayerCharacter/theJungleBook.png);"/>
+      <Button layoutX="592.0" layoutY="340.0" mnemonicParsing="false" onAction="#theLionKing" prefHeight="100.0" prefWidth="100.0" style="-fx-background-image: url(resources/Images/PlayerCharacter/theLionKing.png);"/>
+      <Button layoutX="892.0" layoutY="340.0" mnemonicParsing="false" onAction="#theLittleMermaid" prefHeight="100.0" prefWidth="100.0" style="-fx-background-image: url(resources/Images/PlayerCharacter/theLittleMermaid.png);"/>
+   </children>
+</Pane>

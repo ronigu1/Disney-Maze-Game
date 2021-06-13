@@ -1,0 +1,17 @@
+@font-face {
+    font-family:'New Walt Disney Font';
+    src: url("resources/Fonts/NewWaltDisneyUi-8YdA.ttf");
+}
+
+.root{
+    -fx-background-size: cover;
+}
+
+Button {
+    -fx-font-family: "New Walt Disney Font";
+    -fx-font-weight: bold;
+    -fx-background-color: linear-gradient(#61a2b1, #2A5058);
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.6), 5, 0.0, 0, 1);
+}
+
+
