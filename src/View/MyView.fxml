@@ -47,7 +47,7 @@
                   </Menu>
                   <Menu mnemonicParsing="false" text="Exit">
                      <items>
-                        <MenuItem mnemonicParsing="false" text="About" />
+                         <MenuItem id="exitTheGame" mnemonicParsing="false" onAction="#exit" text="exit the game " />
                      </items>
                   </Menu>
               </menus>

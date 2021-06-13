@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -307,6 +308,9 @@ public class MyViewController implements Observer, IView, Initializable {
     @Override
     public void New() {
         primaryStage.setScene(choosePlayerScene);
+        mazeDisplayer.clearMaze(mazeDisplayer.getGraphicsContext2D());
+        txtfldRowsNum.setText("");
+        txtfldColsNum.setText("");
     }
 
     public void mouseClicked(MouseEvent mouseEvent) {

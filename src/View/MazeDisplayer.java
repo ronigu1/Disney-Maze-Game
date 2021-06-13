@@ -106,12 +106,11 @@ public class MazeDisplayer extends Canvas {
             }catch (Exception e){
                 System.out.println("problem with some image");
             }
-            double canvasHeight = getHeight();
-            double canvasWidth = getWidth();
-            double cellHeight = canvasHeight / grid.length;
-            double cellWidth = canvasWidth / grid[0].length;
+            double cellHeight = getHeight() / grid.length;
+            double cellWidth = getWidth() / grid[0].length;
             GraphicsContext graphicsContext2D = getGraphicsContext2D();
-            graphicsContext2D.clearRect(0, 0, getWidth(), getHeight());
+            clearMaze(graphicsContext2D);
+            /*graphicsContext2D.clearRect(0, 0, getWidth(), getHeight());*/
             ArrayList<AState> path = null;
             if(drawWithSol==true)
                 path = solution.getSolutionPath();
@@ -221,5 +220,8 @@ public class MazeDisplayer extends Canvas {
     }
 
 
+    public void clearMaze(GraphicsContext graphicsContext) {
+        graphicsContext.clearRect(0, 0, getWidth(), getHeight());
+    }
 }
 
