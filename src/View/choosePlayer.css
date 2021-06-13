@@ -1,9 +1,10 @@
-.root{
-    -fx-background-color: black;
+Button {
+    -fx-background-size: 98% 98%;
+    -fx-background-position: center center;
+    /*-fx-background-color: linear-gradient(#85a5a4, #cafefc);*/
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
 }
 
-.background {
-    -fx-background-image: url('resources/Images/choosePlayerBackground.jpg');
-    -fx-background-size: 100% 100%;
-    -fx-background-position: center;
+Button:hover{
+    -fx-background-size: 105% 105%;
 }

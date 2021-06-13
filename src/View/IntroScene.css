@@ -1,17 +1,38 @@
+/*
 @font-face {
-    font-family:'New Walt Disney Font';
-    src: url("resources/Fonts/NewWaltDisneyUi-8YdA.ttf");
+    font-family: 'New Walt Disney Font Regular';
+    src: url(Fonts/NewWaltDisneyFontRegular-BPen.ttf);
 }
+*/
 
 .root{
-    -fx-background-size: cover;
+    -fx-background-image: url("../../../../resources/Images/introBackground.gif");
+    -fx-background-repeat: stretch;
+    -fx-background-size: stretch;
+    -fx-background-position: center center;
 }
 
+
+Button {
+    -fx-text-fill: #0b2074;
+    /*-fx-font-family: 'New Walt Disney Font Regular';*/
+    -fx-font-weight: bold;
+    -fx-font-size: 24;
+    -fx-background-color: linear-gradient(#85a5a4, #cafefc);
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+}
+
+
+Button:hover{
+    -fx-background-size: 105% 105%;
+}
+
+
+/*
 Button {
     -fx-font-family: "New Walt Disney Font";
     -fx-font-weight: bold;
     -fx-background-color: linear-gradient(#61a2b1, #2A5058);
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.6), 5, 0.0, 0, 1);
 }
-
-
+*/

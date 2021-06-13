@@ -2,49 +2,80 @@ package View;
 
 import Model.MyModel;
 import ViewModel.MyViewModel;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
-public class ChoosePlayerController {
+import java.io.FileInputStream;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class ChoosePlayerController  implements Initializable {
     private Stage primaryStage;
+    private Scene currScene;
     private Scene nextScene;
     private MyViewController viewCon;
     private String ChosenMovie;
+    @FXML
+    private ImageView img_muteImageView;
+    private Image muteIconDark;
+    private Image unMuteIconDark;
+    private boolean musicPlay=true;
+    private boolean firstChoose=false;
+
+
+    public void initialize(URL location, ResourceBundle resources) {
+        try {
+            FileInputStream muteIconDarkInput = new FileInputStream("resources/Images/muteIconDark.png");
+            muteIconDark = new Image(muteIconDarkInput);
+            FileInputStream unMuteIconDarkInput = new FileInputStream("resources/Images/unMuteIconDark.png");
+            unMuteIconDark = new Image(unMuteIconDarkInput);
+            img_muteImageView.setImage(unMuteIconDark);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+    }
 
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
 
     public void setScene(Scene scene) {
-        this.nextScene = scene;
+        this.currScene = scene;
     }
 
     public void startPlayerChooserController() throws Exception {
-        //ViewModel -> Model
-        MyModel model = new MyModel();
-        model.startServers();
-        MyViewModel viewModel = new MyViewModel(model);
-        model.addObserver(viewModel);
+        if(!firstChoose){
+            //ViewModel -> Model
+            MyModel model = new MyModel();
+            model.startServers();
+            MyViewModel viewModel = new MyViewModel(model);
+            model.addObserver(viewModel);
 
-        FXMLLoader myViewFxml = new FXMLLoader(getClass().getResource("src/View/MyView.fxml"));
-        Parent finalSceneRoot = myViewFxml.load();
-        nextScene =  new Scene(finalSceneRoot,1280,720);
-        viewCon = myViewFxml.getController();
+            FXMLLoader myViewFxml = new FXMLLoader(getClass().getResource("MyView.fxml"));
+            Parent finalSceneRoot = myViewFxml.load();
+            this.nextScene = new Scene(finalSceneRoot, 1280, 720);
+            viewCon = myViewFxml.getController();
+            viewCon.setViewModel(viewModel);
 
+            viewCon.setPrimaryStage(primaryStage);
+            viewCon.setChoosePlayerScene(currScene);
+
+            viewModel.addObserver(viewCon);
+            firstChoose = true;
+        }
         // Set chosen movie CharactersUrl for the next scene
         setChosenCharactersUrl();
-
-        viewCon.setViewModel(viewModel);
-        // viewModel.addObserver(view);
-        viewModel.addObserver(viewCon);
-
         primaryStage.setScene(nextScene);
-        primaryStage.show();
     }
 
-    private void setChosenCharactersUrl(){
+    private void setChosenCharactersUrl() throws Exception {
         String playerURL = "resources/Images/PlayerCharacter/"+ChosenMovie+".png";
         String goalURL = "resources/Images/GoalCharacter/"+ChosenMovie+".png";
         String playerGoalURL= "resources/Images/SolutionCharacters/"+ChosenMovie+".png";
@@ -86,5 +117,15 @@ public class ChoosePlayerController {
     public void theLittleMermaid() throws Exception{
         this.ChosenMovie = "theLittleMermaid";
         this.startPlayerChooserController();
+    }
+
+    public void mute() {
+        if(musicPlay) {
+            img_muteImageView.setImage(muteIconDark);
+            musicPlay = false;
+        }else{
+            img_muteImageView.setImage(unMuteIconDark);
+            musicPlay = true;
+        }
     }
 }

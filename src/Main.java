@@ -41,8 +41,10 @@ public class Main extends Application {
             introSceneCont.setPrimaryStage(primaryStage);
             introSceneCont.setScene(choosePlayerScene);
             choosePlayerSceneCont.setPrimaryStage(primaryStage);
+            choosePlayerSceneCont.setScene(choosePlayerScene);
             // choosePlayerSceneCont.setScene(playGameScene);
             // playGameSceneCont.setStageInView(primaryStage);
+            primaryStage.setScene(introScene);
             primaryStage.show();
         }
         catch (Exception e){
