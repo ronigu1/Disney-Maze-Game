@@ -46,7 +46,7 @@ public class MyViewModel extends Observable implements Observer {
 
     private void playerMoved() {
         setChanged();
-        notifyObservers("playerMove");
+        notifyObservers("playerMoved");
     }
 
     private void mazeSolved() {

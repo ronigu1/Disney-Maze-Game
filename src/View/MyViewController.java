@@ -4,14 +4,15 @@ import ViewModel.MyViewModel;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -23,32 +24,42 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
 
-public class MyViewController implements Observer, IView {
+public class MyViewController implements Observer, IView, Initializable {
+    @FXML
     public MazeDisplayer mazeDisplayer;
+    @FXML
     public TextField txtfldRowsNum;
+    @FXML
     public TextField txtfldColsNum;
+    @FXML
     public Button btnGenerateMaze;
+    @FXML
     public Label lblPlayerRow;
+    @FXML
     public Label lblPlayerCol;
+    @FXML
     public Pane pane;
+    @FXML
     int displayCounter=1;
 
-
-    private Stage stage;
+    private Stage primaryStage;
+    private Scene choosePlayerScene;
     private MyViewModel viewModel;
     public static boolean mute = false;
+    public static boolean solButten=false;
     public StringProperty updatePlayerRow = new SimpleStringProperty();
     public StringProperty updatePlayerCol = new SimpleStringProperty();
     public javafx.scene.control.Button btnSolveMaze;
 
-
+    public void setChoosePlayerScene(Scene choosePlayerScene) {
+        this.choosePlayerScene = choosePlayerScene;
+    }
     public String getUpdatePlayerRow() {
         return updatePlayerRow.get();
     }
@@ -70,14 +81,13 @@ public class MyViewController implements Observer, IView {
         setUpdatePlayerRow(row);
         setUpdatePlayerCol(col);
     }
-
-    public void initialize(MyViewModel viewModel) {
+    public void initialize() {
         lblPlayerRow.textProperty().bind(updatePlayerRow);
         lblPlayerCol.textProperty().bind(updatePlayerCol);
     }
 
-    public void setStageInView(Stage stage) {
-        this.stage = stage;
+    public void setPrimaryStage(Stage stage) {
+        this.primaryStage = stage;
     }
     public void setViewModel(MyViewModel viewModel) {
         this.viewModel = viewModel;
@@ -105,16 +115,17 @@ public class MyViewController implements Observer, IView {
         }
 
     private void mazeLoaded() {
+        solButten = false;
         mazeDisplayer.setMaze(viewModel.getMaze());
         mazeDisplayer.setMazeGridWithoutRedraw(viewModel.getMaze().getData());
-        initialize(viewModel);
+        initialize();
         displayCounter = 2;
         displayMaze(viewModel.getMaze().getData());
     }
 
     private void mazeSolved() {
         mazeDisplayer.setSolution(viewModel.getSolution());
-        mazeDisplayer.drawSolution();
+        mazeDisplayer.redraw(MyViewController.solButten);
     }
 
     private void playerMoved() {
@@ -122,9 +133,12 @@ public class MyViewController implements Observer, IView {
     }
 
     private void mazeGenerated() {
+        solButten = false;
         btnGenerateMaze.setDisable(false);
         mazeDisplayer.setMaze(viewModel.getMaze());
-        initialize(viewModel);
+        mazeDisplayer.setPlayerStartPositionWithoutRedraw(viewModel.getMaze().getStartPosition().getRowIndex(),viewModel.getMaze().getStartPosition().getColumnIndex());
+        initialize();
+        displayCounter = 1;
         displayMaze(viewModel.getMaze().getData());
     }
     @Override
@@ -145,11 +159,12 @@ public class MyViewController implements Observer, IView {
         viewModel.movePlayer(keyEvent.getCode());
         keyEvent.consume();
     }
-    public void setCharactersAccordingToUserChoice(URL playerUrl,URL GoalUrl, URL playerGoalUrl, URL GoalGifUrl) throws Exception {
+    public void setCharactersAccordingToUserChoice(String playerUrl,String GoalUrl, String playerGoalUrl, String GoalGifUrl) throws Exception {
         mazeDisplayer.setPlayer(playerUrl);
         mazeDisplayer.setGoal(GoalUrl);
         mazeDisplayer.setPlayerGoal(playerGoalUrl);
         mazeDisplayer.setGoalGif(GoalGifUrl);
+
     }
 
     public void generateMaze(ActionEvent actionEvent) {
@@ -182,8 +197,15 @@ public class MyViewController implements Observer, IView {
     }
 
     public void solveMaze(ActionEvent actionEvent) {
-        viewModel.solveMaze();
-        btnSolveMaze.setDisable(true);
+        if (solButten) {
+            solButten = false;
+            displayMaze(viewModel.getMaze().getData());
+        } else {
+            solButten = true;
+            viewModel.solveMaze();
+        }
+/*        viewModel.solveMaze();
+        btnSolveMaze.setDisable(true);*/
     }
 
     public void MuteORUnmuteMaze(ActionEvent actionEvent) {
@@ -217,13 +239,44 @@ public class MyViewController implements Observer, IView {
     }
 
     public void About(ActionEvent actionEvent) {
-
+        try {
+            Stage stage = new Stage();
+            stage.setTitle("About");
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            Parent root = fxmlLoader.load(getClass().getResource("About.fxml").openStream());
+            Scene scene = new Scene(root, 430, 230);
+            scene.getStylesheets().add(getClass().getResource("MainStyle.css").toExternalForm());
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
+            stage.show();
+        }catch (Exception e) { e.printStackTrace();}
     }
 
-    public void Options() throws Exception {
+    public void Options(ActionEvent actionEvent) throws Exception {
+        Stage stage = new Stage();
+        stage.setTitle("Properties");
+        FXMLLoader propFXML = new FXMLLoader(getClass().getResource("/View/Properties.fxml"));
+        Parent root = propFXML.load();
+        PropertiesController propController = propFXML.getController();
+        propController.setStage(stage);
+        Scene scene = new Scene(root, 500, 250);
+        stage.setScene(scene);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.show();
     }
 
     public void Help() {
+        try {
+            Stage stage = new Stage();
+            stage.setTitle("Help");
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            Parent root = fxmlLoader.load(getClass().getResource("Help.fxml").openStream());
+            Scene scene = new Scene(root, 500, 250);
+            scene.getStylesheets().add(getClass().getResource("MainStyle.css").toExternalForm());
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
+            stage.show();
+        } catch (Exception e) { e.printStackTrace();}
     }
 
     @Override
@@ -232,7 +285,7 @@ public class MyViewController implements Observer, IView {
         fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("User's previous maze", "*.maze"));
         fileChooser.setInitialFileName("mySavedMazeGame");
-        File fileToSave = fileChooser.showSaveDialog(stage);
+        File fileToSave = fileChooser.showSaveDialog(primaryStage);
         if (fileToSave != null) {
             viewModel.saveMaze(fileToSave);
         }
@@ -244,7 +297,7 @@ public class MyViewController implements Observer, IView {
         fileChooser.setTitle("Load maze");
         fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Maze Files", "*.maze"));
-        File fileToLoad = fileChooser.showOpenDialog(stage);
+        File fileToLoad = fileChooser.showOpenDialog(primaryStage);
         if (fileToLoad != null) {
             viewModel.loadMaze(fileToLoad);
         }
@@ -253,7 +306,7 @@ public class MyViewController implements Observer, IView {
 
     @Override
     public void New() {
-
+        primaryStage.setScene(choosePlayerScene);
     }
 
     public void mouseClicked(MouseEvent mouseEvent) {
@@ -284,5 +337,11 @@ public class MyViewController implements Observer, IView {
         double start = (canvasSize / 2 - (cellSize * mazeSize / 2)) / cellSize;
         double mouse = (int) ((mouseEvent) / (temp) - start);
         return mouse;
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        lblPlayerRow.textProperty().bind(updatePlayerRow);
+        lblPlayerCol.textProperty().bind(updatePlayerCol);
     }
 }

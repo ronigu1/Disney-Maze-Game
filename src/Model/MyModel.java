@@ -178,10 +178,11 @@ public class MyModel extends Observable implements IModel {
     }
 
     public void loadMaze(File fileToLoad) {
+        FileInputStream fileIn = null;
         try {
-            FileInputStream fileIn = new FileInputStream(fileToLoad.getPath());
+            fileIn = new FileInputStream(fileToLoad);
             ObjectInputStream objectIn = new ObjectInputStream(fileIn);
-            this.maze = (Maze) objectIn.readObject();
+            this.maze = (Maze)objectIn.readObject();
             objectIn.close();
             isMazeExist = true;
             setChanged();

@@ -14,7 +14,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<?import View.MazeDisplayer?>
+<?import View.*?>
+
+<?import java.lang.String?>
 <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyPressed="#KeyPressed" prefHeight="605.0" prefWidth="315.0" stylesheets="@MainStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
    <top>
       <VBox accessibleRole="MENU_BAR" focusTraversable="true" prefHeight="19.0" prefWidth="240.0" BorderPane.alignment="CENTER">
@@ -23,22 +25,24 @@
               <menus>
                 <Menu mnemonicParsing="false" text="File">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="Close" />
+                      <MenuItem fx:id="newMaze" mnemonicParsing="false" onAction="#New" text="New" />
+                      <MenuItem fx:id="SaveButton" mnemonicParsing="false" onAction="#Save" text="Save" />
+                      <MenuItem fx:id="LoadButton" mnemonicParsing="false" onAction="#Load" text="Load" />
                   </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Option">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="Delete" />
+                     <MenuItem mnemonicParsing="false" onAction="#Options" text="Properties" />
                   </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="About" />
+                      <MenuItem mnemonicParsing="false" onAction="#Help" text="Game Instructions" />
                   </items>
                 </Menu>
                   <Menu mnemonicParsing="false" text="About">
                      <items>
-                        <MenuItem mnemonicParsing="false" text="About" />
+                         <MenuItem mnemonicParsing="false" onAction="#About" text="Information" />
                      </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Exit">
@@ -104,10 +108,22 @@
       </GridPane>
    </bottom>
    <center>
-      <Pane fx:id="pane" onScroll="#setOnScroll" prefHeight="499.0" prefWidth="113.0" BorderPane.alignment="CENTER">
+       <Pane fx:id="pane" styleClass="background" onScroll="#setOnScroll" prefHeight="499.0" prefWidth="113.0" BorderPane.alignment="CENTER">
            <children>
-               <MazeDisplayer fx:id="mazeDisplayer" BorderPane.alignment="CENTER" onMouseClicked="#mouseClicked" onMouseDragged="#mouseDragged" />
+               <MazeDisplayer fx:id="mazeDisplayer"
+                              height="561.0"
+                              width="600.0"
+                              imageFileNameWall="resources/Images/MazeBush.png"
+                              imageFileSolPath="resources/Images/MazeRoad.jpg"
+                              onMouseClicked="#mouseClicked"
+                              onMouseDragged="#mouseDragged"
+                              BorderPane.alignment="CENTER">
+<!--                   <styleClass>
+                       <String fx:value="root" />
+                       <String fx:value="Label" />
+                   </styleClass>-->
+               </MazeDisplayer>
            </children>
-      </Pane>
+       </Pane>
    </center>
 </BorderPane>
