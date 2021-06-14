@@ -6,7 +6,7 @@
     -fx-background-size: stretch;
     -fx-background-position: center center;
 }
-
+/*add*/
 .background{
     -fx-background-image: url("../../../../resources/Images/MazeRoad.jpg");
     -fx-background-repeat: stretch;
