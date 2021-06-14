@@ -19,10 +19,10 @@ Button {
     -fx-background-color: linear-gradient(#61a2b1, #2A5058);
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.6), 5, 0.0, 0, 1);
 }
-@font-face {
+/*@font-face {
     font-family:'New Walt Disney Font';
     src: url(resources/Fonts/NewWaltDisneyUi-8YdA.ttf);
-}
+}*/
 /*//ריחוף_על_הכפתו*/
 Button:hover {
     -fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;

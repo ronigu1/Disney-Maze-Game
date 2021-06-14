@@ -25,8 +25,8 @@ public class ChoosePlayerController  implements Initializable {
     private ImageView img_muteImageView;
     private Image muteIconDark;
     private Image unMuteIconDark;
-    private boolean musicPlay=true;
-    private boolean firstChoose=false;
+    private boolean musicPlay=false;
+    private boolean firstChoose=true;
 
 
     public void initialize(URL location, ResourceBundle resources) {
@@ -35,7 +35,10 @@ public class ChoosePlayerController  implements Initializable {
             muteIconDark = new Image(muteIconDarkInput);
             FileInputStream unMuteIconDarkInput = new FileInputStream("resources/Images/unMuteIconDark.png");
             unMuteIconDark = new Image(unMuteIconDarkInput);
-            img_muteImageView.setImage(unMuteIconDark);
+            if(!MyViewController.mute)
+                img_muteImageView.setImage(unMuteIconDark);
+            else
+                img_muteImageView.setImage(muteIconDark);
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -51,7 +54,7 @@ public class ChoosePlayerController  implements Initializable {
     }
 
     public void startPlayerChooserController() throws Exception {
-        if(!firstChoose){
+        if(firstChoose){
             //ViewModel -> Model
             MyModel model = new MyModel();
             model.startServers();
@@ -80,7 +83,8 @@ public class ChoosePlayerController  implements Initializable {
         String goalURL = "resources/Images/GoalCharacter/"+ChosenMovie+".png";
         String playerGoalURL= "resources/Images/SolutionCharacters/"+ChosenMovie+".png";
         String goalGifURL= "resources/Images/FinalGif/"+ChosenMovie+".gif";
-        viewCon.setCharactersAccordingToUserChoice(playerURL, goalURL, playerGoalURL, goalGifURL);
+        String winSongUrl = "resources/music/" + ChosenMovie +".mp3";
+        viewCon.setCharactersAccordingToUserChoice(playerURL, goalURL, playerGoalURL, goalGifURL, winSongUrl);
     }
 
     /* onAction buttons for choosing a movie */
@@ -120,12 +124,13 @@ public class ChoosePlayerController  implements Initializable {
     }
 
     public void mute() {
-        if(musicPlay) {
+        if(!MyViewController.mute) {
+            MyViewController.mute=true;
             img_muteImageView.setImage(muteIconDark);
-            musicPlay = false;
         }else{
+            MyViewController.mute=false;
             img_muteImageView.setImage(unMuteIconDark);
-            musicPlay = true;
         }
+        MazeDisplayer.MuteORUnmuteMusic();
     }
 }

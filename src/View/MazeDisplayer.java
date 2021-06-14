@@ -17,14 +17,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.shape.Path;
 import javafx.stage.Stage;
-
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.nio.file.FileSystems;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -153,9 +150,11 @@ public class MazeDisplayer extends Canvas {
             Position goalPosition = maze.getGoalPosition();
             int goalPosRow = goalPosition.getRowIndex();
             int goalPosCol = goalPosition.getColumnIndex();
-            graphicsContext2D.drawImage(GoalImage, goalPosCol * cellWidth, goalPosRow * cellHeight, cellWidth, cellHeight);
-            /*draw the player's Image in player's current position */
-            graphicsContext2D.drawImage(playerImage, playerColPos * cellWidth, playerRowPos * cellHeight, cellWidth, cellHeight);
+            if (playerRowPos != goalPosRow || playerColPos != goalPosCol) {
+                graphicsContext2D.drawImage(GoalImage, goalPosCol * cellWidth, goalPosRow * cellHeight, cellWidth, cellHeight);
+                /*draw the player's Image in player's current position */
+                graphicsContext2D.drawImage(playerImage, playerColPos * cellWidth, playerRowPos * cellHeight, cellWidth, cellHeight);
+            }
             if (playerRowPos == goalPosRow && playerColPos == goalPosCol) {
                 MyViewController.solButten = false;
                 graphicsContext2D.drawImage(playerGoalImage, goalPosCol * cellWidth, goalPosRow * cellHeight, cellWidth, cellHeight);
