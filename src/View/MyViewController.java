@@ -160,11 +160,12 @@ public class MyViewController implements Observer, IView, Initializable {
         viewModel.movePlayer(keyEvent.getCode());
         keyEvent.consume();
     }
-    public void setCharactersAccordingToUserChoice(String playerUrl,String GoalUrl, String playerGoalUrl, String GoalGifUrl) throws Exception {
+    public void setCharactersAccordingToUserChoice(String playerUrl,String GoalUrl, String playerGoalUrl, String GoalGifUrl, String winSongUrl) throws Exception {
         mazeDisplayer.setPlayer(playerUrl);
         mazeDisplayer.setGoal(GoalUrl);
         mazeDisplayer.setPlayerGoal(playerGoalUrl);
         mazeDisplayer.setGoalGif(GoalGifUrl);
+        mazeDisplayer.setChoosenPlayerAudio(winSongUrl);
 
     }
 
@@ -208,7 +209,7 @@ public class MyViewController implements Observer, IView, Initializable {
 /*        viewModel.solveMaze();
         btnSolveMaze.setDisable(true);*/
     }
-
+//on action of click on the mute Button :
     public void MuteORUnmuteMaze(ActionEvent actionEvent) {
         if (mute) {
             mute = false;
@@ -311,6 +312,7 @@ public class MyViewController implements Observer, IView, Initializable {
         mazeDisplayer.clearMaze(mazeDisplayer.getGraphicsContext2D());
         txtfldRowsNum.setText("");
         txtfldColsNum.setText("");
+
     }
 
     public void mouseClicked(MouseEvent mouseEvent) {

@@ -17,12 +17,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.shape.Path;
 import javafx.stage.Stage;
 
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.nio.file.FileSystems;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -37,12 +39,14 @@ public class MazeDisplayer extends Canvas {
     private StringProperty imageFileNameWall = new SimpleStringProperty();
     private Image wallImage;
     private StringProperty imageFileSolPath = new SimpleStringProperty();
+    private static StringProperty ChoosenPlayerAudio = new SimpleStringProperty();
     private Image solutionPathImage;
     private Image playerImage;
     private Image GoalImage;
     private Image playerGoalImage;
     private Image GoalGifImage;
     public static MediaPlayer mediaPlayer;
+    public static Boolean winScene = false;
 
     public String getImageFileNameWall() {
         return imageFileNameWall.get();
@@ -65,6 +69,7 @@ public class MazeDisplayer extends Canvas {
         widthProperty().addListener(e -> redraw(MyViewController.solButten));
         heightProperty().addListener(e -> redraw(MyViewController.solButten));
     }
+
 
    public void setWall() {
        try {
@@ -92,6 +97,15 @@ public class MazeDisplayer extends Canvas {
    public void setGoalGif(String path) throws Exception {
        GoalGifImage = new Image(Paths.get(path).toUri().toString());
    }
+    public void setChoosenPlayerAudio(String choosenPlayeAudio) {
+        this.ChoosenPlayerAudio.set(choosenPlayeAudio);
+    }
+
+    public static String getChoosenPlayerAudio() {
+        return ChoosenPlayerAudio.get();
+    }
+
+
 
     /** draws the maze scene including the player(this method should be invoked after each movement of the player) */
     public void redraw(boolean drawWithSol) {
@@ -103,6 +117,10 @@ public class MazeDisplayer extends Canvas {
                 setGoal("resources/Images/GoalCharacter/beautyAndTheBeast.png");
                 setPlayerGoal("resources/Images/GoalCharacter/liloAndStitch.png");
                 setGoalGif("resources/Images/GoalCharacter/liloAndStitch.png");*/
+/*
+                setChoosenPlayerAudio("resources/music/The Lion King.mp3");
+*/
+
             }catch (Exception e){
                 System.out.println("problem with some image");
             }
@@ -154,6 +172,8 @@ public class MazeDisplayer extends Canvas {
 
     private void showStageForUserWinningTheGame() {
         try{
+            winScene = true;
+            setAudio();
             Pane pane = new Pane();
             Stage newStage = new Stage();
             ImageView imageviewGoalGifImage = new ImageView(GoalGifImage);
@@ -162,6 +182,7 @@ public class MazeDisplayer extends Canvas {
             Scene scene = new Scene(pane);
             newStage.setScene(scene);
             newStage.show();
+            newStage.setOnCloseRequest( event -> setAudio());//Sets the value of the property onCloseRequest
 //            audioChooser(2);
 /*
             newStage.setOnCloseRequest( event ->  mediaPlayer.stop() );//Sets the value of the property onCloseRequest
@@ -171,15 +192,26 @@ public class MazeDisplayer extends Canvas {
         }
     }
 
-    public static void setAudio(){
-        String songPath = "resources/music/WhenYouWishUponAStar.mp3";
-        Media player = new Media(new File(songPath).toURI().toString());
-        mediaPlayer = new MediaPlayer(player);
-        mediaPlayer.play();
+    public static void MuteORUnmuteMusic() {
         mediaPlayer.setMute(MyViewController.mute);
     }
 
-    public static void MuteORUnmuteMusic() {
+    public static void setAudio(){
+        /*stop the audio playing currently before switching */
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+            mediaPlayer.pause();
+        }
+        String songPath = "resources/music/WhenYouWishUponAStar.mp3";
+        if (winScene != false) {
+            String songForWining = getChoosenPlayerAudio();
+            songPath = songForWining;
+            winScene = false;
+        }
+        String mediaUrl = new File(songPath).toURI().toString();
+        Media player = new Media(mediaUrl);
+        mediaPlayer = new MediaPlayer(player);
+        mediaPlayer.play();
         mediaPlayer.setMute(MyViewController.mute);
     }
 
