@@ -6,7 +6,6 @@
 */
 
 .root{
-    -fx-background-image: url("../../../../resources/Images/introBackground.gif");
     -fx-background-repeat: stretch;
     -fx-background-size: stretch;
     -fx-background-position: center center;

@@ -3,7 +3,9 @@ package View;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -21,7 +23,7 @@ import java.util.ResourceBundle;
 
 public class IntroSceneController implements Initializable {
     private Stage primaryStage;
-    private Scene nextScene;
+    private Scene choosePlayerScene;
     @FXML
     private AnchorPane anchorPane;
     @FXML
@@ -50,16 +52,29 @@ public class IntroSceneController implements Initializable {
     }
 
     public void setScene(Scene scene) {
-        this.nextScene = scene;
+        this.choosePlayerScene = scene;
     }
 
     /*Switch to "choosePlayer" scene*/
-    public void newGameClicked() throws Exception {
-        if (!isTransitionVideoPlayed) {
-            playTransitionMedia();
+    public void newGameClicked(){
+        try {
+            /* Initialize choosePlayer Scene*/
+            FXMLLoader choosePlayerFxml = new FXMLLoader(getClass().getResource("choosePlayer.fxml"));
+            Parent secondSceneRoot = choosePlayerFxml.load();
+            Scene nextScene = new Scene(secondSceneRoot, 1280, 720);
+            setScene(nextScene);
+
+            ChoosePlayerController choosePlayerSceneCont = choosePlayerFxml.getController();
+            choosePlayerSceneCont.setPrimaryStage(primaryStage);
+            choosePlayerSceneCont.setScene(choosePlayerScene);
+
+            if (!isTransitionVideoPlayed) {
+                playTransitionMedia();
+            } else
+                moveToNextScene();
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        else
-            moveToNextScene();
     }
 
     private void playTransitionMedia(){
@@ -81,18 +96,15 @@ public class IntroSceneController implements Initializable {
             musicPlay = true;
         }
         mediaPlayer.play();
-        mediaPlayer.setOnEndOfMedia(new Runnable(){
-            @Override
-            public void run() {
-                if(musicPlay && MyViewController.mute)
-                    mute();
-                moveToNextScene();
-            }
+        mediaPlayer.setOnEndOfMedia(() -> {
+            if(musicPlay && MyViewController.mute)
+                mute();
+            moveToNextScene();
         });
     }
 
     private void moveToNextScene(){
-        primaryStage.setScene(nextScene);
+        primaryStage.setScene(choosePlayerScene);
     }
 
     public void mute(){

@@ -1,4 +1,3 @@
-import View.ChoosePlayerController;
 import View.IntroSceneController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -16,7 +15,7 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage){
         try {
             /* Initialize Intro Scene*/
             FXMLLoader introSceneFxml = new FXMLLoader(getClass().getResource("View/IntroScene.fxml"));
@@ -24,26 +23,7 @@ public class Main extends Application {
             primaryStage.setTitle("Disney Maze Game");
             introScene = new Scene(firstSceneRoot, 936, 526);
             IntroSceneController introSceneCont = introSceneFxml.getController();
-
-            /* Initialize choosePlayer Scene*/
-            FXMLLoader choosePlayerFxml = new FXMLLoader(getClass().getResource("View/choosePlayer.fxml"));
-            Parent secondSceneRoot = choosePlayerFxml.load();
-            choosePlayerScene = new Scene(secondSceneRoot, 1920, 1080);
-            ChoosePlayerController choosePlayerSceneCont = choosePlayerFxml.getController();
-
-
-            /* Initialize play Scene
-            FXMLLoader myViewFxml = new FXMLLoader(getClass().getResource("src/View/MyView.fxml"));
-            Parent finalSceneRoot = myViewFxml.load();
-            playGameScene = new Scene(finalSceneRoot,1280,720);
-            MyViewController playGameSceneCont =  myViewFxml.getController();*/
-
             introSceneCont.setPrimaryStage(primaryStage);
-            introSceneCont.setScene(choosePlayerScene);
-            choosePlayerSceneCont.setPrimaryStage(primaryStage);
-            choosePlayerSceneCont.setScene(choosePlayerScene);
-            // choosePlayerSceneCont.setScene(playGameScene);
-            // playGameSceneCont.setStageInView(primaryStage);
             primaryStage.setScene(introScene);
             primaryStage.show();
         }

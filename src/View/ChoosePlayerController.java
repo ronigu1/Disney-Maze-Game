@@ -22,7 +22,7 @@ public class ChoosePlayerController  implements Initializable {
     private MyViewController viewCon;
     private String ChosenMovie;
     @FXML
-    private ImageView img_muteImageView;
+    public ImageView img_muteImageView;
     private Image muteIconDark;
     private Image unMuteIconDark;
     private boolean musicPlay=false;
