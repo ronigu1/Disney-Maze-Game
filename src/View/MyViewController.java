@@ -1,6 +1,8 @@
 package View;
 
 import ViewModel.MyViewModel;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
@@ -10,17 +12,18 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.scene.transform.Scale;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
@@ -31,9 +34,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.concurrent.Delayed;
 
 public class MyViewController implements Observer, IView, Initializable {
     @FXML
@@ -52,6 +58,8 @@ public class MyViewController implements Observer, IView, Initializable {
     public Pane pane;
     @FXML
     int displayCounter=1;
+    @FXML
+    public BorderPane borderPane;
 
     private Stage primaryStage;
     private Scene choosePlayerScene;
@@ -65,6 +73,8 @@ public class MyViewController implements Observer, IView, Initializable {
     private ImageView img_muteImageView;
     private Image muteIconDark;
     private Image unMuteIconDark;
+    private boolean isExitGifPlayed = false;
+
 
 
     public void setChoosePlayerScene(Scene choosePlayerScene) {
@@ -213,7 +223,7 @@ public class MyViewController implements Observer, IView, Initializable {
         btnSolveMaze.setDisable(true);*/
     }
 //on action of click on the mute Button :
-    public void MuteORUnmuteMaze(ActionEvent actionEvent) {
+    public void MuteORUnmuteMaze() {
         if (mute) {
             mute = false;
             img_muteImageView.setImage(unMuteIconDark);
@@ -242,7 +252,35 @@ public class MyViewController implements Observer, IView, Initializable {
     }
 
     public void exit() {
-        System.exit(0);
+        MuteORUnmuteMaze();
+        playEndGif();
+        /*System.exit(0);*/
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"", ButtonType.CLOSE);
+        alert.setHeaderText("Bye Bye!");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.CLOSE) {
+            //Server.Configurations.setValue("algorithms.mazeGenerators.MyMazeGenerator", "mazeGenerator");
+            //Server.Configurations.setValue("algorithms.search.BreadthFirstSearch", "searchingAlgorithm");
+            System.exit(0);
+        }
+    }
+
+    private void playEndGif() {
+        isExitGifPlayed = true;
+        // play transition video:
+        String gifPath = "resources/Images/FinalGif/exitGif.gif";
+        Image playerImage = new Image(Paths.get(gifPath).toUri().toString());
+        ImageView GoalGif = new ImageView(playerImage);
+        DoubleProperty mvw = GoalGif.fitWidthProperty();
+        DoubleProperty mvh = GoalGif.fitHeightProperty();
+        mvw.bind(Bindings.selectDouble(GoalGif.sceneProperty(), "width"));
+        mvh.bind(Bindings.selectDouble(GoalGif.sceneProperty(), "height"));
+        GoalGif.setPreserveRatio(true);
+        borderPane.getChildren().add(GoalGif);
+        primaryStage.show();
+        isExitGifPlayed = false;
+
+
     }
 
     public void About(ActionEvent actionEvent) {

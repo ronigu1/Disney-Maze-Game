@@ -15,8 +15,8 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<?import View.MazeDisplayer?>
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyPressed="#KeyPressed" prefHeight="605.0" prefWidth="315.0" style="-fx-background-image: url(Images/mazeDisplayerBackground.jpg); -fx-background-size: 100% 100%;" stylesheets="@MainStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
+<?import View.*?>
+<BorderPane fx:id="borderPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyPressed="#KeyPressed" prefHeight="605.0" prefWidth="315.0" style="-fx-background-image: url(Images/mazeDisplayerBackground.jpg); -fx-background-size: 100% 100%;" stylesheets="@MainStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
    <top>
       <VBox accessibleRole="MENU_BAR" focusTraversable="true" prefHeight="19.0" prefWidth="240.0" BorderPane.alignment="CENTER">
          <children>
@@ -113,7 +113,7 @@
    <center>
        <Pane fx:id="pane" onScroll="#setOnScroll" prefHeight="499.0" prefWidth="113.0" style="-fx-background-image: url(Images/MazeRoad.jpg); -fx-background-size: 100% 100%;" BorderPane.alignment="CENTER">
            <children>
-               <MazeDisplayer fx:id="mazeDisplayer" height="561.0" imageFileNameWall="resources/Images/MazeBush.png" imageFileSolPath="resources/Images/MazeRoad.jpg" onMouseClicked="#mouseClicked" onMouseDragged="#mouseDragged" width="600.0" BorderPane.alignment="CENTER">
+               <MazeDisplayer fx:id="mazeDisplayer" height="561.0" imageFileNameWall="resources/Images/MazeBush.png" imageFileSolPath="resources/Images/MazeSolution.jpg" onMouseClicked="#mouseClicked" onMouseDragged="#mouseDragged" width="600.0" BorderPane.alignment="CENTER">
 
                </MazeDisplayer>
            </children>
