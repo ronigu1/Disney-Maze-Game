@@ -114,9 +114,7 @@ public class MazeDisplayer extends Canvas {
                 setGoal("resources/Images/GoalCharacter/beautyAndTheBeast.png");
                 setPlayerGoal("resources/Images/GoalCharacter/liloAndStitch.png");
                 setGoalGif("resources/Images/GoalCharacter/liloAndStitch.png");*/
-/*
-                setChoosenPlayerAudio("resources/music/The Lion King.mp3");
-*/
+//                setChoosenPlayerAudio("resources/music/The Lion King.mp3");
 
             }catch (Exception e){
                 System.out.println("problem with some image");

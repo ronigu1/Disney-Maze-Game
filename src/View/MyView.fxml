@@ -6,6 +6,7 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -14,10 +15,8 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<?import View.*?>
-
-<?import java.lang.String?>
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyPressed="#KeyPressed" prefHeight="605.0" prefWidth="315.0" stylesheets="@MainStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
+<?import View.MazeDisplayer?>
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyPressed="#KeyPressed" prefHeight="605.0" prefWidth="315.0" style="-fx-background-image: url(Images/mazeDisplayerBackground.jpg); -fx-background-size: 100% 100%;" stylesheets="@MainStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
    <top>
       <VBox accessibleRole="MENU_BAR" focusTraversable="true" prefHeight="19.0" prefWidth="240.0" BorderPane.alignment="CENTER">
          <children>
@@ -103,25 +102,19 @@
                   <Label prefHeight="17.0" prefWidth="61.0" text="Status bar" />
                </children>
             </HBox>
-            <Button fx:id="btnMuteMaze" minWidth="194.0" mnemonicParsing="false" onAction="#MuteORUnmuteMaze" prefHeight="31.0" prefWidth="170.0" text="Mute" GridPane.columnSpan="2" />
-         </children>
+            <Button fx:id="btnMuteMaze" alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#MuteORUnmuteMaze" prefHeight="40.0" prefWidth="40.0" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
+                 <graphic>
+                     <ImageView fx:id="img_muteImageView" fitHeight="40.0" fitWidth="40.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" />
+                 </graphic>
+         </Button>
+      </children>
       </GridPane>
    </bottom>
    <center>
-       <Pane fx:id="pane" styleClass="background" onScroll="#setOnScroll" prefHeight="499.0" prefWidth="113.0" BorderPane.alignment="CENTER">
+       <Pane fx:id="pane" onScroll="#setOnScroll" prefHeight="499.0" prefWidth="113.0" style="-fx-background-image: url(Images/MazeRoad.jpg); -fx-background-size: 100% 100%;" BorderPane.alignment="CENTER">
            <children>
-               <MazeDisplayer fx:id="mazeDisplayer"
-                              height="561.0"
-                              width="600.0"
-                              imageFileNameWall="resources/Images/MazeBush.png"
-                              imageFileSolPath="resources/Images/MazeRoad.jpg"
-                              onMouseClicked="#mouseClicked"
-                              onMouseDragged="#mouseDragged"
-                              BorderPane.alignment="CENTER">
-<!--                   <styleClass>
-                       <String fx:value="root" />
-                       <String fx:value="Label" />
-                   </styleClass>-->
+               <MazeDisplayer fx:id="mazeDisplayer" height="561.0" imageFileNameWall="resources/Images/MazeBush.png" imageFileSolPath="resources/Images/MazeRoad.jpg" onMouseClicked="#mouseClicked" onMouseDragged="#mouseDragged" width="600.0" BorderPane.alignment="CENTER">
+
                </MazeDisplayer>
            </children>
        </Pane>

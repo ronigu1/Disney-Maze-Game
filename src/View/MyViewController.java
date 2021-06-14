@@ -14,6 +14,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -25,6 +27,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Observable;
@@ -57,6 +61,11 @@ public class MyViewController implements Observer, IView, Initializable {
     public StringProperty updatePlayerRow = new SimpleStringProperty();
     public StringProperty updatePlayerCol = new SimpleStringProperty();
     public javafx.scene.control.Button btnSolveMaze;
+    @FXML
+    private ImageView img_muteImageView;
+    private Image muteIconDark;
+    private Image unMuteIconDark;
+
 
     public void setChoosePlayerScene(Scene choosePlayerScene) {
         this.choosePlayerScene = choosePlayerScene;
@@ -81,10 +90,6 @@ public class MyViewController implements Observer, IView, Initializable {
         mazeDisplayer.setPlayerPositionAndRedraw(row, col);
         setUpdatePlayerRow(row);
         setUpdatePlayerCol(col);
-    }
-    public void initialize() {
-        lblPlayerRow.textProperty().bind(updatePlayerRow);
-        lblPlayerCol.textProperty().bind(updatePlayerCol);
     }
 
     public void setPrimaryStage(Stage stage) {
@@ -119,7 +124,6 @@ public class MyViewController implements Observer, IView, Initializable {
         solButten = false;
         mazeDisplayer.setMaze(viewModel.getMaze());
         mazeDisplayer.setMazeGridWithoutRedraw(viewModel.getMaze().getData());
-        initialize();
         displayCounter = 2;
         displayMaze(viewModel.getMaze().getData());
     }
@@ -138,7 +142,6 @@ public class MyViewController implements Observer, IView, Initializable {
         btnGenerateMaze.setDisable(false);
         mazeDisplayer.setMaze(viewModel.getMaze());
         mazeDisplayer.setPlayerStartPositionWithoutRedraw(viewModel.getMaze().getStartPosition().getRowIndex(),viewModel.getMaze().getStartPosition().getColumnIndex());
-        initialize();
         displayCounter = 1;
         displayMaze(viewModel.getMaze().getData());
     }
@@ -213,8 +216,10 @@ public class MyViewController implements Observer, IView, Initializable {
     public void MuteORUnmuteMaze(ActionEvent actionEvent) {
         if (mute) {
             mute = false;
+            img_muteImageView.setImage(unMuteIconDark);
         } else {
             mute = true;
+            img_muteImageView.setImage(muteIconDark);
         }
         MazeDisplayer.MuteORUnmuteMusic();
     }
@@ -349,5 +354,17 @@ public class MyViewController implements Observer, IView, Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         lblPlayerRow.textProperty().bind(updatePlayerRow);
         lblPlayerCol.textProperty().bind(updatePlayerCol);
+        try {
+            FileInputStream muteIconDarkInput = new FileInputStream("resources/Images/muteIconDark.png");
+            muteIconDark = new Image(muteIconDarkInput);
+            FileInputStream unMuteIconDarkInput = new FileInputStream("resources/Images/unMuteIconDark.png");
+            unMuteIconDark = new Image(unMuteIconDarkInput);
+            if(!MyViewController.mute)
+                img_muteImageView.setImage(unMuteIconDark);
+            else
+                img_muteImageView.setImage(muteIconDark);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 }
