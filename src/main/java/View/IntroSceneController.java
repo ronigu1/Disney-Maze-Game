@@ -14,6 +14,8 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -31,18 +33,19 @@ public class IntroSceneController implements Initializable {
     private Image muteIconDark;
     private Image unMuteIconDark;
     private boolean musicPlay=true;
-    private boolean isTransitionVideoPlayed = false;
+    private boolean isTransitionVideoPlayed = true;
+    private static final Logger LOG = LogManager.getLogger();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            FileInputStream muteIconDarkInput = new FileInputStream("resources/Images/muteIconDark.png");
+            FileInputStream muteIconDarkInput = new FileInputStream("src/main/resources/Images/muteIconDark.png");
             muteIconDark = new Image(muteIconDarkInput);
-            FileInputStream unMuteIconDarkInput = new FileInputStream("resources/Images/unMuteIconDark.png");
+            FileInputStream unMuteIconDarkInput = new FileInputStream("src/main/resources/Images/unMuteIconDark.png");
             unMuteIconDark = new Image(unMuteIconDarkInput);
             img_muteImageView.setImage(unMuteIconDark);
         }catch(Exception e){
-            e.printStackTrace();
+            LOG.debug("NotFoundPath",e);
         }
     }
 
@@ -59,7 +62,7 @@ public class IntroSceneController implements Initializable {
     public void newGameClicked(){
         try {
             /* Initialize choosePlayer Scene*/
-            FXMLLoader choosePlayerFxml = new FXMLLoader(getClass().getResource("choosePlayer.fxml"));
+            FXMLLoader choosePlayerFxml = new FXMLLoader(getClass().getResource("../choosePlayer.fxml"));
             Parent secondSceneRoot = choosePlayerFxml.load();
             Scene nextScene = new Scene(secondSceneRoot, 1280, 720);
             setScene(nextScene);
@@ -73,14 +76,14 @@ public class IntroSceneController implements Initializable {
             } else
                 moveToNextScene();
         }catch (Exception e){
-            e.printStackTrace();
+            LOG.debug("NotFoundPath",e);
         }
     }
 
     private void playTransitionMedia(){
         isTransitionVideoPlayed = true;
         // play transition video:
-        String songPath = "resources/Images/introTransitionVideo.mp4";
+        String songPath = "src/main/resources/Images/introTransitionVideo.mp4";
         String mediaUrl = new File(songPath).toURI().toString();
         Media player = new Media(mediaUrl);
         MediaPlayer mediaPlayer = new MediaPlayer(player);

@@ -83,7 +83,7 @@ public class MyViewModel extends Observable implements Observer {
         model.loadMaze(file);
     }
 
-    public void saveMaze(File saveFile) throws IOException {
+    public void saveMaze(File saveFile) {
         model.saveMaze(saveFile);
     }
 

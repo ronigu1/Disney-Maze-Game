@@ -105,7 +105,7 @@
    <center>
        <Pane fx:id="Pane" onScroll="#setOnScroll" style="-fx-background-image: url(Images/MazeRoad.jpg); -fx-background-size: cover;" BorderPane.alignment="CENTER">
            <children>
-               <MazeDisplayer fx:id="mazeDisplayer" height="561.0" width="561.0" imageFileNameWall="resources/Images/MazeBush.png" imageFileSolPath="resources/Images/MazeSolution.jpg" onMouseClicked="#mouseClicked" onMouseDragged="#mouseDragged" BorderPane.alignment="CENTER">
+               <MazeDisplayer fx:id="mazeDisplayer" height="561.0" width="561.0" imageFileNameWall="src/main/resources/Images/MazeBush.png" imageFileSolPath="src/main/resources/Images/MazeSolution.jpg" onMouseClicked="#mouseClicked" onMouseDragged="#mouseDragged" BorderPane.alignment="CENTER">
                </MazeDisplayer>
            </children>
          <BorderPane.margin>

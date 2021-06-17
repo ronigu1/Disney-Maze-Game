@@ -10,12 +10,17 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ChoosePlayerController  implements Initializable {
+    private static final Logger LOG = LogManager.getLogger();
     private Stage primaryStage;
     private Scene currScene;
     private Scene nextScene;
@@ -31,16 +36,16 @@ public class ChoosePlayerController  implements Initializable {
 
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            FileInputStream muteIconDarkInput = new FileInputStream("resources/Images/muteIconDark.png");
+            FileInputStream muteIconDarkInput = new FileInputStream("src/main/resources/Images/muteIconDark.png");
             muteIconDark = new Image(muteIconDarkInput);
-            FileInputStream unMuteIconDarkInput = new FileInputStream("resources/Images/unMuteIconDark.png");
+            FileInputStream unMuteIconDarkInput = new FileInputStream("src/main/resources/Images/unMuteIconDark.png");
             unMuteIconDark = new Image(unMuteIconDarkInput);
             if(!MyViewController.mute)
                 img_muteImageView.setImage(unMuteIconDark);
             else
                 img_muteImageView.setImage(muteIconDark);
         }catch(Exception e){
-            e.printStackTrace();
+            LOG.debug("NotFoundPath",e);
         }
 
     }
@@ -53,7 +58,7 @@ public class ChoosePlayerController  implements Initializable {
         this.currScene = scene;
     }
 
-    public void startPlayerChooserController() throws Exception {
+    public void startPlayerChooserController(){
         if(firstChoose){
             //ViewModel -> Model
             MyModel model = new MyModel();
@@ -61,8 +66,13 @@ public class ChoosePlayerController  implements Initializable {
             MyViewModel viewModel = new MyViewModel(model);
             model.addObserver(viewModel);
 
-            FXMLLoader myViewFxml = new FXMLLoader(getClass().getResource("MyView.fxml"));
-            Parent finalSceneRoot = myViewFxml.load();
+            FXMLLoader myViewFxml = new FXMLLoader(getClass().getResource("../MyView.fxml"));
+            Parent finalSceneRoot = null;
+            try {
+                finalSceneRoot = myViewFxml.load();
+            } catch (IOException e) {
+                LOG.debug("IOException",e);
+            }
             this.nextScene = new Scene(finalSceneRoot, 1280, 720);
             viewCon = myViewFxml.getController();
             viewCon.setViewModel(viewModel);
@@ -74,51 +84,55 @@ public class ChoosePlayerController  implements Initializable {
             firstChoose = true;
         }
         // Set chosen movie CharactersUrl for the next scene
-        setChosenCharactersUrl();
+        try {
+            setChosenCharactersUrl();
+        } catch (Exception e) {
+            LOG.debug("Exception",e);
+        }
         primaryStage.setScene(nextScene);
     }
 
-    private void setChosenCharactersUrl() throws Exception {
-        String playerURL = "resources/Images/PlayerCharacter/"+ChosenMovie+".png";
-        String goalURL = "resources/Images/GoalCharacter/"+ChosenMovie+".png";
-        String playerGoalURL= "resources/Images/SolutionCharacters/"+ChosenMovie+".png";
-        String goalGifURL= "resources/Images/FinalGif/"+ChosenMovie+".gif";
-        String winSongUrl = "resources/music/" + ChosenMovie +".mp3";
+    private void setChosenCharactersUrl() {
+        String playerURL = "src/main/resources/Images/PlayerCharacter/"+ChosenMovie+".png";
+        String goalURL = "src/main/resources/Images/GoalCharacter/"+ChosenMovie+".png";
+        String playerGoalURL= "src/main/resources/Images/SolutionCharacters/"+ChosenMovie+".png";
+        String goalGifURL= "src/main/resources/Images/FinalGif/"+ChosenMovie+".gif";
+        String winSongUrl = "src/main/resources/music/" + ChosenMovie +".mp3";
         viewCon.setCharactersAccordingToUserChoice(playerURL, goalURL, playerGoalURL, goalGifURL, winSongUrl);
     }
 
     /* onAction buttons for choosing a movie */
-    public void beautyAndTheBeast() throws Exception{
+    public void beautyAndTheBeast(){
         this.ChosenMovie = "beautyAndTheBeast";
         this.startPlayerChooserController();
     }
 
-    public void liloAndStitch() throws Exception{
+    public void liloAndStitch(){
         this.ChosenMovie = "liloAndStitch";
         this.startPlayerChooserController();
     }
 
-    public void mickeyMouse() throws Exception{
+    public void mickeyMouse(){
         this.ChosenMovie = "mickeyMouse";
         this.startPlayerChooserController();
     }
 
-    public void snowWhiteAndSevenDwarfs() throws Exception{
+    public void snowWhiteAndSevenDwarfs(){
         this.ChosenMovie = "snowWhiteAndSevenDwarfs";
         this.startPlayerChooserController();
     }
 
-    public void theJungleBook() throws Exception{
+    public void theJungleBook(){
         this.ChosenMovie = "theJungleBook";
         this.startPlayerChooserController();
     }
 
-    public void theLionKing() throws Exception{
+    public void theLionKing(){
         this.ChosenMovie = "theLionKing";
         this.startPlayerChooserController();
     }
 
-    public void theLittleMermaid() throws Exception{
+    public void theLittleMermaid(){
         this.ChosenMovie = "theLittleMermaid";
         this.startPlayerChooserController();
     }

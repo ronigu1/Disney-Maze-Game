@@ -6,6 +6,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.FileInputStream;
 import java.net.URL;
@@ -23,6 +25,7 @@ public class PropertiesController implements Initializable {
     @FXML
     public Button btn_update;
     private Configurations Config;
+    private static final Logger LOG = LogManager.getLogger();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -48,7 +51,8 @@ public class PropertiesController implements Initializable {
             else if(generate.equals("EmptyMazeGenerator")){
                 generator.setValue("EmptyMazeGenerator");}
 
-        }catch (Exception e){}}
+        }catch (Exception e){LOG.debug(e);}
+    }
 
     public void UpdateMouseClicked(){
         Config.setMazeGeneratingAlgorithm(generator.getValue());

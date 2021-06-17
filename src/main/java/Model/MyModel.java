@@ -5,6 +5,8 @@ import IO.MyDecompressorInputStream;
 import Server.*;
 import algorithms.mazeGenerators.Maze;
 import algorithms.search.Solution;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.*;
 import java.net.InetAddress;
@@ -22,6 +24,8 @@ public class MyModel extends Observable implements IModel {
     /*private int[][] mazeGrid;*/
     private boolean isMazeExist = false;
     private boolean serversStarted = false;
+    private static final Logger LOG = LogManager.getLogger();
+
 
     public MyModel() {
         generatorServer = new Server(5400, 1000, new ServerStrategyGenerateMaze());
@@ -71,14 +75,14 @@ public class MyModel extends Observable implements IModel {
                         byte[] decompressedMaze = new byte[decompressedMazeSize];
                         is.read(decompressedMaze);
                         maze = new Maze(decompressedMaze);
-                    } catch (Exception var10) {
-                        var10.printStackTrace();
+                    } catch (Exception e) {
+                        LOG.debug(e);
                     }
                 }
             });
             client.communicateWithServer();
-        } catch (UnknownHostException var1) {
-            var1.printStackTrace();
+        } catch (UnknownHostException e) {
+            LOG.debug(e);
         }
     }
 
@@ -102,14 +106,14 @@ public class MyModel extends Observable implements IModel {
                         toServer.flush();
                         Solution mazeSolution = (Solution) fromServer.readObject();
                         solution = mazeSolution;
-                    } catch (Exception var10) {
-                        var10.printStackTrace();
+                    } catch (Exception e) {
+                        LOG.debug(e);
                     }
                 }
             });
             client.communicateWithServer();
         } catch (UnknownHostException e) {
-            e.printStackTrace();
+            LOG.debug(e);
         }
 
     }
@@ -173,12 +177,12 @@ public class MyModel extends Observable implements IModel {
             objectOut.writeObject(maze);
             objectOut.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.debug(e);
         }
     }
 
     public void loadMaze(File fileToLoad) {
-        FileInputStream fileIn = null;
+        FileInputStream fileIn ;
         try {
             fileIn = new FileInputStream(fileToLoad);
             ObjectInputStream objectIn = new ObjectInputStream(fileIn);
@@ -190,7 +194,7 @@ public class MyModel extends Observable implements IModel {
             movePlayer(maze.getStartPosition().getRowIndex(),maze.getStartPosition().getColumnIndex());
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.debug(e);
         }
     }
 

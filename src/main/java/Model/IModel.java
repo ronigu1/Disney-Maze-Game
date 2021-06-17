@@ -7,19 +7,19 @@ import java.io.File;
 import java.util.Observer;
 
 public interface IModel {
-    public void generateMaze(int rowHeight,int ColWidth);
-    public void solveMaze();
-    public Maze getMaze();
-    public Solution getSolution();
+    void generateMaze(int rowHeight,int ColWidth);
+    void solveMaze();
+    Maze getMaze();
+    Solution getSolution();
     void updatePlayerLocation(MovementDirection direction);
     int getPlayerRowPos();
     int getPlayerColPos();
     void assignObserver(Observer o);
 
-    public void startServers();
-    public void stopServers();
-    public void saveMaze(File saveFile);
-    public void loadMaze(File file);
+    void startServers();
+    void stopServers();
+    void saveMaze(File saveFile);
+    void loadMaze(File file);
 
 
 }

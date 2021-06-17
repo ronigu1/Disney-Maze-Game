@@ -23,6 +23,8 @@ import javafx.scene.transform.Scale;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -35,6 +37,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class MyViewController implements Observer, IView, Initializable {
+    private final Logger LOG = LogManager.getLogger();
     @FXML
     public MazeDisplayer mazeDisplayer;
     @FXML
@@ -156,13 +159,16 @@ public class MyViewController implements Observer, IView, Initializable {
         viewModel.movePlayer(keyEvent.getCode());
         keyEvent.consume();
     }
-    public void setCharactersAccordingToUserChoice(String playerUrl,String GoalUrl, String playerGoalUrl, String GoalGifUrl, String winSongUrl) throws Exception {
-        mazeDisplayer.setPlayer(playerUrl);
-        mazeDisplayer.setGoal(GoalUrl);
-        mazeDisplayer.setPlayerGoal(playerGoalUrl);
-        mazeDisplayer.setGoalGif(GoalGifUrl);
-        mazeDisplayer.setChoosenPlayerAudio(winSongUrl);
-
+    public void setCharactersAccordingToUserChoice(String playerUrl,String GoalUrl, String playerGoalUrl, String GoalGifUrl, String winSongUrl)  {
+        try {
+            mazeDisplayer.setPlayer(playerUrl);
+            mazeDisplayer.setGoal(GoalUrl);
+            mazeDisplayer.setPlayerGoal(playerGoalUrl);
+            mazeDisplayer.setGoalGif(GoalGifUrl);
+            mazeDisplayer.setChoosenPlayerAudio(winSongUrl);
+        } catch (Exception e) {
+            LOG.debug("Invalid Path",e);
+        }
     }
 
     public void generateMaze(ActionEvent actionEvent) {
@@ -251,7 +257,7 @@ public class MyViewController implements Observer, IView, Initializable {
     private void playEndGif() {
         isExitGifPlayed = true;
         // play transition video:
-        String gifPath = "resources/Images/FinalGif/exitGif.gif";
+        String gifPath = "src/main/resources/Images/FinalGif/exitGif.gif";
         Image playerImage = new Image(Paths.get(gifPath).toUri().toString());
         ImageView GoalGif = new ImageView(playerImage);
         DoubleProperty mvw = GoalGif.fitWidthProperty();
@@ -262,8 +268,6 @@ public class MyViewController implements Observer, IView, Initializable {
         borderPane.getChildren().add(GoalGif);
         primaryStage.show();
         isExitGifPlayed = false;
-
-
     }
 
     public void About(ActionEvent actionEvent) {
@@ -271,20 +275,27 @@ public class MyViewController implements Observer, IView, Initializable {
             Stage stage = new Stage();
             stage.setTitle("About");
             FXMLLoader fxmlLoader = new FXMLLoader();
-            Parent root = fxmlLoader.load(getClass().getResource("About.fxml").openStream());
-            Scene scene = new Scene(root, 430, 230);
-            scene.getStylesheets().add(getClass().getResource("MainStyle.css").toExternalForm());
+            Parent root = fxmlLoader.load(getClass().getResource("../About.fxml").openStream());
+            Scene scene = new Scene(root, 960, 514);
+            scene.getStylesheets().add(getClass().getResource("../MainStyle.css").toExternalForm());
             stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
             stage.show();
-        }catch (Exception e) { e.printStackTrace();}
+        } catch (Exception e) {
+            LOG.debug("IOException",e);
+        }
     }
 
-    public void Options(ActionEvent actionEvent) throws Exception {
+    public void Options(ActionEvent actionEvent) {
         Stage stage = new Stage();
         stage.setTitle("Properties");
-        FXMLLoader propFXML = new FXMLLoader(getClass().getResource("/View/Properties.fxml"));
-        Parent root = propFXML.load();
+        FXMLLoader propFXML = new FXMLLoader(getClass().getResource("../Properties.fxml"));
+        Parent root = null;
+        try {
+            root = propFXML.load();
+        } catch (Exception e) {
+            LOG.debug("IOException",e);
+        }
         PropertiesController propController = propFXML.getController();
         propController.setStage(stage);
         Scene scene = new Scene(root, 500, 250);
@@ -298,36 +309,48 @@ public class MyViewController implements Observer, IView, Initializable {
             Stage stage = new Stage();
             stage.setTitle("Help");
             FXMLLoader fxmlLoader = new FXMLLoader();
-            Parent root = fxmlLoader.load(getClass().getResource("Help.fxml").openStream());
-            Scene scene = new Scene(root, 500, 250);
-            scene.getStylesheets().add(getClass().getResource("MainStyle.css").toExternalForm());
+            Parent root = fxmlLoader.load(getClass().getResource("../Help.fxml").openStream());
+            Scene scene = new Scene(root, 960, 600);
+            scene.getStylesheets().add(getClass().getResource("../MainStyle.css").toExternalForm());
             stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
             stage.show();
-        } catch (Exception e) { e.printStackTrace();}
+        } catch (Exception e) {
+            LOG.debug("IOException",e);
+        }
     }
 
     @Override
-    public void Save() throws IOException {
+    public void Save()  {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("User's previous maze", "*.maze"));
         fileChooser.setInitialFileName("mySavedMazeGame");
         File fileToSave = fileChooser.showSaveDialog(primaryStage);
         if (fileToSave != null) {
-            viewModel.saveMaze(fileToSave);
+            try {
+                viewModel.saveMaze(fileToSave);
+            } catch (Exception e) {
+                LOG.debug("IOException",e);
+            }
         }
     }
 
     @Override
-    public void Load() throws IOException, ClassNotFoundException {
+    public void Load(){
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Load maze");
         fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Maze Files", "*.maze"));
         File fileToLoad = fileChooser.showOpenDialog(primaryStage);
         if (fileToLoad != null) {
-            viewModel.loadMaze(fileToLoad);
+            try {
+                viewModel.loadMaze(fileToLoad);
+            } catch (IOException e) {
+                LOG.debug("IOException",e);
+            } catch (ClassNotFoundException e) {
+                LOG.debug("ClassNotFoundException",e);
+            }
         }
 
     }
@@ -376,16 +399,16 @@ public class MyViewController implements Observer, IView, Initializable {
         lblPlayerRow.textProperty().bind(updatePlayerRow);
         lblPlayerCol.textProperty().bind(updatePlayerCol);
         try {
-            FileInputStream muteIconDarkInput = new FileInputStream("resources/Images/muteIconDark.png");
+            FileInputStream muteIconDarkInput = new FileInputStream("src/main/resources/Images/muteIconDark.png");
             muteIconDark = new Image(muteIconDarkInput);
-            FileInputStream unMuteIconDarkInput = new FileInputStream("resources/Images/unMuteIconDark.png");
+            FileInputStream unMuteIconDarkInput = new FileInputStream("src/main/resources/Images/unMuteIconDark.png");
             unMuteIconDark = new Image(unMuteIconDarkInput);
             if(!MyViewController.mute)
                 img_muteImageView.setImage(unMuteIconDark);
             else
                 img_muteImageView.setImage(muteIconDark);
-        }catch(Exception e){
-            e.printStackTrace();
+        } catch (IOException e) {
+            LOG.debug("FileNotFoundException", e);
         }
     }
 }

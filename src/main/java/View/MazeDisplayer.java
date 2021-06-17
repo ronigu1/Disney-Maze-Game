@@ -18,6 +18,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -42,6 +44,7 @@ public class MazeDisplayer extends Canvas {
     private Image GoalImage;
     private Image playerGoalImage;
     private Image GoalGifImage;
+    private static final Logger LOG = LogManager.getLogger();
 
     public static MediaPlayer mediaPlayer;
     public static Boolean winScene = false;
@@ -83,16 +86,16 @@ public class MazeDisplayer extends Canvas {
            System.out.println("There is no solPath image file");}
     }
 
-   public void setPlayer(String path) throws Exception {
+   public void setPlayer(String path){
        playerImage = new Image(Paths.get(path).toUri().toString());
    }
-   public void setGoal(String path) throws Exception {
+   public void setGoal(String path){
        GoalImage = new Image(Paths.get(path).toUri().toString());
    }
-   public void setPlayerGoal(String path) throws Exception {
+   public void setPlayerGoal(String path){
        playerGoalImage = new Image(Paths.get(path).toUri().toString());
    }
-   public void setGoalGif(String path) throws Exception {
+   public void setGoalGif(String path){
        GoalGifImage = new Image(Paths.get(path).toUri().toString());
    }
     public void setChoosenPlayerAudio(String choosenPlayeAudio) {
@@ -183,7 +186,7 @@ public class MazeDisplayer extends Canvas {
             newStage.setOnCloseRequest( event ->  mediaPlayer.stop() );//Sets the value of the property onCloseRequest
 */
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.debug(e);
         }
     }
 
@@ -197,7 +200,7 @@ public class MazeDisplayer extends Canvas {
             mediaPlayer.stop();
             mediaPlayer.pause();
         }
-        String songPath = "resources/music/WhenYouWishUponAStar.mp3";
+        String songPath = "src/main/resources/music/WhenYouWishUponAStar.mp3";
         if (winScene != false) {
             String songForWining = getChoosenPlayerAudio();
             songPath = songForWining;
