@@ -42,6 +42,7 @@ public class MazeDisplayer extends Canvas {
     private Image GoalImage;
     private Image playerGoalImage;
     private Image GoalGifImage;
+
     public static MediaPlayer mediaPlayer;
     public static Boolean winScene = false;
 
@@ -109,18 +110,13 @@ public class MazeDisplayer extends Canvas {
         if (grid != null) {
             setWall();
             setSolutionPathImage();
-            try {
-                /*setPlayer("resources/Images/PlayerCharacter/beautyAndTheBeast.png");
-                setGoal("resources/Images/GoalCharacter/beautyAndTheBeast.png");
-                setPlayerGoal("resources/Images/GoalCharacter/liloAndStitch.png");
-                setGoalGif("resources/Images/GoalCharacter/liloAndStitch.png");*/
-//                setChoosenPlayerAudio("resources/music/The Lion King.mp3");
 
-            }catch (Exception e){
-                System.out.println("problem with some image");
-            }
-            double cellHeight = getHeight() / grid.length;
-            double cellWidth = getWidth() / grid[0].length;
+            double canvasHeight = getHeight();
+            double canvasWidth = getWidth();
+
+            double cellHeight = canvasHeight / grid.length;
+            double cellWidth = canvasWidth / grid[0].length;
+
             GraphicsContext graphicsContext2D = getGraphicsContext2D();
             clearMaze(graphicsContext2D);
             /*graphicsContext2D.clearRect(0, 0, getWidth(), getHeight());*/
@@ -172,6 +168,8 @@ public class MazeDisplayer extends Canvas {
             winScene = true;
             setAudio();
             Pane pane = new Pane();
+            //pane.setBackground(new Background(new BackgroundImage(GoalGifImage, BackgroundRepeat.REPEAT,BackgroundRepeat.REPEAT, BackgroundPosition.CENTER,new BackgroundSize(100.0,100.0,true,true,false,true))));
+
             Stage newStage = new Stage();
             ImageView imageviewGoalGifImage = new ImageView(GoalGifImage);
             //add ImageView to Pane's children

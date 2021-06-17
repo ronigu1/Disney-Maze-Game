@@ -11,7 +11,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -20,10 +19,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaView;
 import javafx.scene.transform.Scale;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
@@ -31,7 +26,6 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Paths;
@@ -39,7 +33,6 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.concurrent.Delayed;
 
 public class MyViewController implements Observer, IView, Initializable {
     @FXML
@@ -54,8 +47,6 @@ public class MyViewController implements Observer, IView, Initializable {
     public Label lblPlayerRow;
     @FXML
     public Label lblPlayerCol;
-    @FXML
-    public Pane pane;
     @FXML
     int displayCounter=1;
     @FXML
@@ -108,14 +99,6 @@ public class MyViewController implements Observer, IView, Initializable {
     public void setViewModel(MyViewModel viewModel) {
         this.viewModel = viewModel;
         this.viewModel.addObserver(this);
-    }
-
-    public void setPane(Pane pane) {
-        this.pane = pane;
-    }
-    //getter
-    public Pane getPane() {
-        return pane;
     }
 
     @Override

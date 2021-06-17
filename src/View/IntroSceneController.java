@@ -31,7 +31,7 @@ public class IntroSceneController implements Initializable {
     private Image muteIconDark;
     private Image unMuteIconDark;
     private boolean musicPlay=true;
-    private boolean isTransitionVideoPlayed = true;
+    private boolean isTransitionVideoPlayed = false;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
