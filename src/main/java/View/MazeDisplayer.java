@@ -67,8 +67,8 @@ public class MazeDisplayer extends Canvas {
 
 
     public MazeDisplayer() {
-        widthProperty().addListener(e -> redraw(MyViewController.solButten));
-        heightProperty().addListener(e -> redraw(MyViewController.solButten));
+        widthProperty().addListener(e -> redraw(MyViewController.solButton));
+        heightProperty().addListener(e -> redraw(MyViewController.solButton));
     }
 
 
@@ -153,7 +153,7 @@ public class MazeDisplayer extends Canvas {
                 graphicsContext2D.drawImage(playerImage, playerColPos * cellWidth, playerRowPos * cellHeight, cellWidth, cellHeight);
             }
             if (playerRowPos == goalPosRow && playerColPos == goalPosCol) {
-                MyViewController.solButten = false;
+                MyViewController.solButton = false;
                 graphicsContext2D.drawImage(playerGoalImage, goalPosCol * cellWidth, goalPosRow * cellHeight, cellWidth, cellHeight);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setContentText("You solved the maze!");
@@ -216,7 +216,7 @@ public class MazeDisplayer extends Canvas {
     public void setPlayerPositionAndRedraw(int startPosRow, int startPosCol){
         this.playerRowPos =  startPosRow;
         this.playerColPos = startPosCol;
-        redraw(MyViewController.solButten);
+        redraw(MyViewController.solButton);
     }
 
     public void setPlayerStartPositionWithoutRedraw(int startPosRow, int startPosCol) {
@@ -233,7 +233,7 @@ public class MazeDisplayer extends Canvas {
 
     public void setMazeGridAndRedraw(int[][] maze) {
         this.grid = maze;
-        redraw(MyViewController.solButten);
+        redraw(MyViewController.solButton);
     }
 
     public void setMazeGridWithoutRedraw(int[][] maze) {

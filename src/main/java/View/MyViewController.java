@@ -5,6 +5,8 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +21,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.transform.Scale;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
@@ -51,29 +55,31 @@ public class MyViewController implements Observer, IView, Initializable {
     @FXML
     public Label lblPlayerCol;
     @FXML
-    int displayCounter=1;
+    public VBox VBox;
+    @FXML
+    int displayCounter = 1;
     @FXML
     public BorderPane borderPane;
-
+    @FXML
+    public Pane pane;
+    @FXML
+    private ImageView img_muteImageView;
     private Stage primaryStage;
     private Scene choosePlayerScene;
     private MyViewModel viewModel;
     public static boolean mute = false;
-    public static boolean solButten=false;
+    public static boolean solButton =false;
     public StringProperty updatePlayerRow = new SimpleStringProperty();
     public StringProperty updatePlayerCol = new SimpleStringProperty();
     public javafx.scene.control.Button btnSolveMaze;
-    @FXML
-    private ImageView img_muteImageView;
     private Image muteIconDark;
     private Image unMuteIconDark;
     private boolean isExitGifPlayed = false;
 
-
-
     public void setChoosePlayerScene(Scene choosePlayerScene) {
         this.choosePlayerScene = choosePlayerScene;
     }
+
     public String getUpdatePlayerRow() {
         return updatePlayerRow.get();
     }
@@ -99,6 +105,7 @@ public class MyViewController implements Observer, IView, Initializable {
     public void setPrimaryStage(Stage stage) {
         this.primaryStage = stage;
     }
+
     public void setViewModel(MyViewModel viewModel) {
         this.viewModel = viewModel;
         this.viewModel.addObserver(this);
@@ -117,7 +124,7 @@ public class MyViewController implements Observer, IView, Initializable {
         }
 
     private void mazeLoaded() {
-        solButten = false;
+        solButton = false;
         mazeDisplayer.setMaze(viewModel.getMaze());
         mazeDisplayer.setMazeGridWithoutRedraw(viewModel.getMaze().getData());
         displayCounter = 2;
@@ -126,7 +133,7 @@ public class MyViewController implements Observer, IView, Initializable {
 
     private void mazeSolved() {
         mazeDisplayer.setSolution(viewModel.getSolution());
-        mazeDisplayer.redraw(MyViewController.solButten);
+        mazeDisplayer.redraw(MyViewController.solButton);
     }
 
     private void playerMoved() {
@@ -134,7 +141,7 @@ public class MyViewController implements Observer, IView, Initializable {
     }
 
     private void mazeGenerated() {
-        solButten = false;
+        solButton = false;
         btnGenerateMaze.setDisable(false);
         mazeDisplayer.setMaze(viewModel.getMaze());
         mazeDisplayer.setPlayerStartPositionWithoutRedraw(viewModel.getMaze().getStartPosition().getRowIndex(),viewModel.getMaze().getStartPosition().getColumnIndex());
@@ -159,6 +166,7 @@ public class MyViewController implements Observer, IView, Initializable {
         viewModel.movePlayer(keyEvent.getCode());
         keyEvent.consume();
     }
+
     public void setCharactersAccordingToUserChoice(String playerUrl,String GoalUrl, String playerGoalUrl, String GoalGifUrl, String winSongUrl)  {
         try {
             mazeDisplayer.setPlayer(playerUrl);
@@ -201,17 +209,18 @@ public class MyViewController implements Observer, IView, Initializable {
     }
 
     public void solveMaze(ActionEvent actionEvent) {
-        if (solButten) {
-            solButten = false;
+        if (solButton) {
+            solButton = false;
             displayMaze(viewModel.getMaze().getData());
         } else {
-            solButten = true;
+            solButton = true;
             viewModel.solveMaze();
         }
 /*        viewModel.solveMaze();
         btnSolveMaze.setDisable(true);*/
     }
-//on action of click on the mute Button :
+
+    //on action of click on the mute Button :
     public void MuteORUnmuteMaze() {
         if (mute) {
             mute = false;
@@ -223,6 +232,24 @@ public class MyViewController implements Observer, IView, Initializable {
         MazeDisplayer.MuteORUnmuteMusic();
     }
 
+    public void setResizeEvent(Scene scene) {
+        scene.widthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
+                double width = newSceneWidth.doubleValue() - 250.0;
+                mazeDisplayer.setWidth(width);
+            }
+        });
+        scene.heightProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
+                double height = newSceneHeight.doubleValue() - 90.0;
+                mazeDisplayer.setHeight(height);
+
+            }
+        });
+        mazeDisplayer.redraw(false);
+    }
 
     public void setOnScroll(ScrollEvent scrollEvent) {
         if (scrollEvent.isControlDown()) {
@@ -264,7 +291,7 @@ public class MyViewController implements Observer, IView, Initializable {
         DoubleProperty mvh = GoalGif.fitHeightProperty();
         mvw.bind(Bindings.selectDouble(GoalGif.sceneProperty(), "width"));
         mvh.bind(Bindings.selectDouble(GoalGif.sceneProperty(), "height"));
-        GoalGif.setPreserveRatio(true);
+        GoalGif.setPreserveRatio(false);
         borderPane.getChildren().add(GoalGif);
         primaryStage.show();
         isExitGifPlayed = false;

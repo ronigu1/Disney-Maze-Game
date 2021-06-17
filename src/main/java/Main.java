@@ -9,8 +9,7 @@ import org.apache.logging.log4j.Logger;
 
 public class Main extends Application {
     public Scene introScene;
-    public Scene choosePlayerScene;
-    public Scene playGameScene;
+
     private final Logger LOG = LogManager.getLogger();
 
     public static void main(String[] args) {

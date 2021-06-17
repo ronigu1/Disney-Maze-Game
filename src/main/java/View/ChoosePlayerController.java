@@ -73,7 +73,7 @@ public class ChoosePlayerController  implements Initializable {
             } catch (IOException e) {
                 LOG.debug("IOException",e);
             }
-            this.nextScene = new Scene(finalSceneRoot, 1280, 720);
+            this.nextScene = new Scene(finalSceneRoot, 865, 645);
             viewCon = myViewFxml.getController();
             viewCon.setViewModel(viewModel);
 
@@ -90,6 +90,8 @@ public class ChoosePlayerController  implements Initializable {
             LOG.debug("Exception",e);
         }
         primaryStage.setScene(nextScene);
+        viewCon.setResizeEvent(nextScene);
+        primaryStage.show();
     }
 
     private void setChosenCharactersUrl() {

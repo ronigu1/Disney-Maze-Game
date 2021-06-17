@@ -1,34 +1,9 @@
-/* commands(CSS design commands) that I put in "root" will influence the ENTIRE object that uses them   */
-
-/*.root {
-    -fx-background-image: url("../../../../resources/Images/choosePlayerBackground.jpg");
-    -fx-background-repeat: stretch;
-    -fx-background-size: stretch;
-    -fx-background-position: center center;
-}*/
-/*add*/
-/*.background{
-    -fx-background-image: url("../../../../resources/Images/MazeRoad.jpg");
-    -fx-background-repeat: stretch;
-    -fx-background-size: stretch;
-    -fx-background-position: center center;
-}*/
 Button {
     -fx-font-weight: bold;
     -fx-background-color: linear-gradient(#85a5a4, #cafefc);
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.6), 5, 0.0, 0, 1);
 }
-/*Button {
-    -fx-background-size: 98% 98%;
-    -fx-background-position: center center;
-    !*-fx-background-color: linear-gradient(#85a5a4, #cafefc);*!
-    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
-}*/
-/*@font-face {
-    font-family:'New Walt Disney Font';
-    src: url(resources/Fonts/NewWaltDisneyUi-8YdA.ttf);
-}*/
-/*//ריחוף_על_הכפתו*/
+
 Button:hover {
     -fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;
     -fx-background-insets: 0 0 -1 0, 0, 1, 2;
@@ -38,10 +13,3 @@ Button:hover {
     -fx-alignment: CENTER;
     -fx-content-display: LEFT;
 }
-/*
-.background {
-    -fx-background-image: url("/.resources/Images/backgroundDisney.jpg");
-    -fx-background-size: stretch;
-    -fx-background-position: center center;
-    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0)
-}*/

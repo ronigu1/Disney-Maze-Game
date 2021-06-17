@@ -44,7 +44,7 @@
       </VBox>
    </top>
    <left>
-      <VBox prefHeight="200.0" prefWidth="250.0" BorderPane.alignment="CENTER">
+      <VBox fx:id="VBox" prefHeight="200.0" prefWidth="250.0" BorderPane.alignment="CENTER">
          <children>
             <GridPane>
               <columnConstraints>
@@ -94,7 +94,7 @@
                   <Label prefHeight="17.0" prefWidth="61.0" text="Status bar" />
                </children>
             </HBox>
-            <Button fx:id="btnMuteMaze" alignment="TOP_CENTER" contentDisplay="TOP" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#MuteORUnmuteMaze" prefHeight="38.0" prefWidth="38.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+            <Button fx:id="btnMuteMaze" alignment="TOP_CENTER" contentDisplay="TOP" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#MuteORUnmuteMaze" prefHeight="40.0" prefWidth="40.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
                  <graphic>
                      <ImageView fx:id="img_muteImageView" fitHeight="38.0" fitWidth="38.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" />
                  </graphic>
@@ -104,16 +104,16 @@
    </bottom>
    <center>
        <Pane fx:id="Pane" onScroll="#setOnScroll" style="-fx-background-image: url(Images/MazeRoad.jpg); -fx-background-size: cover;" BorderPane.alignment="CENTER">
+<!--           <BorderPane.margin>
+               <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+           </BorderPane.margin>-->
            <children>
-               <MazeDisplayer fx:id="mazeDisplayer" height="561.0" width="561.0" imageFileNameWall="src/main/resources/Images/MazeBush.png" imageFileSolPath="src/main/resources/Images/MazeSolution.jpg" onMouseClicked="#mouseClicked" onMouseDragged="#mouseDragged" BorderPane.alignment="CENTER">
+               <MazeDisplayer fx:id="mazeDisplayer" height="561.0" imageFileNameWall="src/main/resources/Images/MazeBush.png" imageFileSolPath="src/main/resources/Images/MazeSolution.jpg" onMouseClicked="#mouseClicked" onMouseDragged="#mouseDragged" width="610.0" BorderPane.alignment="CENTER">
                </MazeDisplayer>
            </children>
-         <BorderPane.margin>
-            <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
-         </BorderPane.margin>
-         <padding>
+<!--         <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </padding>
+         </padding>-->
        </Pane>
    </center>
 </BorderPane>
